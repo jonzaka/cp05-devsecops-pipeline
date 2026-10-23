@@ -2,6 +2,16 @@
 
 Checkpoint da disciplina **DevSecOps and Cloud Computing** (FIAP, Engenharia de Software).
 
+**Grupo:**
+
+| Integrante | RM |
+|---|---|
+| Breno Silva | RM97864 |
+| Enrico Marquez | RM99325 |
+| Gustavo Dias | RM550820 |
+| Joel Barros | RM550378 |
+| Leonardo Moreira | RM550988 |
+
 Cenário: uma chave de API vazou num commit público da Arcanjosa, e a diretoria
 decretou pipeline de segurança obrigatório em todos os repositórios. Este é o
 pipeline de referência. Ele precisa **barrar** segredos, código vulnerável e
