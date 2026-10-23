@@ -20,7 +20,7 @@ imagem com CVE crítico — e **provar** que barra, com testes de sabotagem.
 | Job | Ferramenta | O que barra | Quando falha |
 |---|---|---|---|
 | `gitleaks` | [Gitleaks](https://github.com/gitleaks/gitleaks) | Segredos no histórico do git (chaves AWS, tokens, senhas) | Qualquer segredo encontrado em qualquer commit do push ou PR |
-| `semgrep` | [Semgrep](https://semgrep.dev) | Código vulnerável (SAST) com as regras `p/javascript` e `p/security-audit` | Qualquer achado (`--error`) |
+| `semgrep` | [Semgrep](https://semgrep.dev) | Código vulnerável (SAST) com os packs `p/javascript` e `p/security-audit` mais a regra `eval-detected` | Qualquer achado (`--error`) |
 | `trivy` | [Trivy](https://github.com/aquasecurity/trivy) | Vulnerabilidades conhecidas (CVE) na imagem Docker construída | Qualquer CVE **CRITICAL** com correção disponível |
 
 O workflow dispara em todo `push` e `pull_request`.
@@ -51,6 +51,6 @@ Os mesmos scanners do pipeline podem ser rodados na máquina:
 
 ```bash
 gitleaks git --verbose .
-semgrep scan --config p/javascript --config p/security-audit --error
+semgrep scan --config p/javascript --config p/security-audit --config r/javascript.browser.security.eval-detected --error
 trivy image --severity CRITICAL --ignore-unfixed arcanjosa-portal
 ```
