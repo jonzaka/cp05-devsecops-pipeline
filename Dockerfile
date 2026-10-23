@@ -1,7 +1,7 @@
 # Imagem de produção do portal de status da Arcanjosa.
 # Base pinada em versão específica (não "latest") para que o scan do Trivy
 # seja reprodutível e uma atualização de base seja uma decisão explícita.
-FROM nginx:1.29-alpine
+FROM nginx:1.14
 
 # Nginx é servidor estático: só copiamos os arquivos do site.
 COPY site/ /usr/share/nginx/html/
