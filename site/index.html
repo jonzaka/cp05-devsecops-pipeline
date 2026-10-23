@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcanjosa — Portal de Status</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Arcanjosa</h1>
+    <p class="subtitulo">Portal de status dos serviços</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Serviços</h2>
+      <ul id="lista-servicos" class="servicos"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Calculadora de SLA</h2>
+      <p>Informe o tempo de indisponibilidade no mês (em minutos) para calcular a disponibilidade.</p>
+      <form id="form-sla">
+        <label for="minutos">Minutos indisponível</label>
+        <input id="minutos" name="minutos" type="number" min="0" step="1" value="0" required>
+        <button type="submit">Calcular</button>
+      </form>
+      <p id="resultado-sla" class="resultado" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>CP05 — DevSecOps and Cloud Computing · FIAP · Engenharia de Software</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

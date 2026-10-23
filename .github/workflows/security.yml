@@ -1,0 +1,56 @@
+name: Security Pipeline
+
+# Roda em todo push e em todo pull request: nenhum código chega à main
+# sem passar pelas três barreiras.
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  # Barreira 1 — segredos (chaves, tokens, senhas) no histórico do git.
+  gitleaks:
+    name: Gitleaks (segredos)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Histórico completo: o Gitleaks varre todos os commits do push/PR,
+          # não só o estado final dos arquivos.
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Barreira 2 — código vulnerável (SAST).
+  semgrep:
+    name: Semgrep (código vulnerável)
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analisar código
+        run: >
+          semgrep scan
+          --config p/javascript
+          --config p/security-audit
+          --error
+          --metrics=off
+
+  # Barreira 3 — vulnerabilidades (CVE) na imagem Docker.
+  trivy:
+    name: Trivy (CVE na imagem)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir imagem
+        run: docker build -t arcanjosa-portal:${{ github.sha }} .
+      - name: Escanear imagem
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: arcanjosa-portal:${{ github.sha }}
+          format: table
+          severity: CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
