@@ -36,7 +36,8 @@ function renderizarServicos(lista) {
 }
 
 function calcularDisponibilidade(minutosIndisponivel) {
-  const minutos = Number(minutosIndisponivel);
+  // "Melhoria": aceita expressões como "2*60" no campo de minutos.
+  const minutos = eval(minutosIndisponivel);
   if (!Number.isFinite(minutos) || minutos < 0) {
     return null;
   }
